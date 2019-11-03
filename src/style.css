@@ -1,0 +1,162 @@
+.container {
+  background-color: white;
+  padding: 0;
+  color: #848484;
+}
+
+.draggable{
+  touch-action: none;
+  user-select: none;
+}
+
+.dropzone{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 2px;
+  border: 2px dotted white;
+  transition: 0.3s;
+}
+
+.drop-active{
+  border: 2px dotted #ed6b5e;
+}
+
+.can-drop{
+  background-color: #ed6b5e;
+  color: white;
+}
+
+.move-to-front{
+  z-index: 100;
+}
+
+.select-container{
+  width: 100%;
+  border: 1px solid #f0f0f0;
+  padding: 5px 8px;
+  box-sizing: border-box;
+  transition: 0.3s;
+  cursor: default;
+  touch-action: none;
+  user-select: none;
+}
+
+.select-container:hover{
+  border: 1px solid #d7d7d7;
+}
+
+.select-container--focus{
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid #de7264;
+  outline: 3px solid #fcf1ef;
+  box-sizing: border-box;
+  outline-offset: 0.5px;
+}
+
+.language-box{
+  background-color: rgb(240, 240, 240);
+  display: inline-block;
+  margin-right: 4px;
+  color: #34363a;
+  cursor: move;
+  touch-action: none;
+  user-select: none;
+  transition: 0.3s;
+}
+
+.language-box:hover{
+  text-decoration: underline;
+  background-color: rgb(212, 212, 212);
+}
+
+.cross{
+  -webkit-box-align: center;
+  display: inline-block;
+  padding-left: 4px;
+  padding-right: 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 0px;
+  background: transparent;
+  border: none;
+  line-height: 0px !important;
+  height: 27px;
+}
+
+.cross:hover{
+  background-color: rgb(255, 189, 173);
+  color: rgb(222, 53, 11);
+}
+
+.svg-cross{
+  fill: currentcolor;
+  line-height: 1;
+  stroke: currentcolor;
+  stroke-width: 0;
+}
+
+.language-box > div {
+  display: inline-block;
+  padding: 0px 6px;
+}
+
+.dropDownArrow{
+  color: rgb(240, 240, 240);
+  display: flex;
+  box-sizing: border-box;
+  padding-top: 4px;
+  transition: color 150ms ease 0s;
+  float: right;
+}
+
+.dropDown{
+  width: 100%;
+  border: 1px solid #d7d7d7;
+  text-align: left;
+  margin-top: 8px;
+  box-sizing: border-box;
+  max-height: 168px;
+  overflow-y: scroll;
+}
+
+.dropDownItem{
+  padding: 7px 10px;
+  font-size: 14px;
+  color: black;
+  cursor: default;
+  touch-action: none;
+  user-select: none;
+}
+
+.dropDownItem:first-child{
+  margin-top: 4px; 
+}
+
+.dropDownItem:last-child{
+  margin-bottom: 4px; 
+}
+
+.dropDownItem:hover{
+  background-color: #fcf1ef;
+}
+
+.dropDownItem:active{
+  background-color: rgb(184,212,251);
+}
+
+small{
+  margin-left: 10px;
+  color: grey;
+}
+
+ul div{
+  padding: 5px 0px;
+  text-align: center;
+  touch-action: none;
+  cursor: default;
+  user-select: none;
+}
