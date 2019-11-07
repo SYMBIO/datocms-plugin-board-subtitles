@@ -236,7 +236,7 @@ export default class Main extends Component {
           onClick={(e) => { this.toggleDropDown(e); }}
           onKeyDown={(e) => { this.toggleDropDown(e); }}
         >
-          {values.length !== 0 ? values.map(subtitleId => (
+          {Array.isArray(values) && values.length !== 0 ? values.map(subtitleId => (
             this.getLanguageItem(subtitleId)
           )) : (
             <span onClick={(e) => { this.toggleDropDown(e); }} role="button" tabIndex="0">
