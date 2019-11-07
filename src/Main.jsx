@@ -29,7 +29,7 @@ export default class Main extends Component {
     loading: true,
     dropDown: false,
     data: {},
-    values: {},
+    values: [],
   };
 
   componentDidMount() {
