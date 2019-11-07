@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import interact from 'interactjs';
 
 import connectToDatoCms from './connectToDatoCms';
 import './style.css';
@@ -51,14 +52,14 @@ export default class Main extends Component {
 
     const languageName = this.detectLanguageFromLocale(locale);
 
-    // const index = data.subtitleFilesLanguages.map(e => e.id).indexOf(itemRow);
-    // data.subtitleFilesLanguages.splice(index, 1);
+    // const index = availableValues.subtitleFilesLanguages.map(e => e.id).indexOf(itemRow);
+    // availableValues.subtitleFilesLanguages.splice(index, 1);
     // console.log(data);
 
     //  if locale undefined tak smazat z values a vubec ho nezobrazovat
 
     return (
-      <div className="language-box" key={`subtitle_${itemRow}`}>
+      <div className="language-box" key={`subtitle_${itemRow}`} id={`subtitle_${itemRow}`}>
         <div>{`${languageName || locale} [${itemRow}]`}</div>
         <button
           type="button"
@@ -71,6 +72,30 @@ export default class Main extends Component {
           <svg className="svg-cross" height="14" width="14" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z" /></svg>
         </button>
       </div>
+    );
+  }
+
+  getLanguageOption(dataRow) {
+    const { setFieldValue, fieldPath } = this.props;
+    const { values } = this.state;
+
+    const languageName = this.detectLanguageFromLocale(dataRow.lang);
+
+    return (
+      <li
+        key={`dropDownItem_${dataRow.id}`}
+        className="dropDownItem"
+        onClick={() => {
+          values.push(dataRow.id);
+          setFieldValue(fieldPath, JSON.stringify(values));
+        }}
+      >
+        {`${languageName || dataRow.lang}`}
+        <small>
+          Titulky (TIT soubory) #
+          {dataRow.id}
+        </small>
+      </li>
     );
   }
 
@@ -89,6 +114,67 @@ export default class Main extends Component {
     }
   }
 
+  initializeInteract() {
+    const position = { x: 0, y: 0 };
+    const { setFieldValue, fieldPath } = this.props;
+    const { values } = this.state;
+
+    interact('.language-box').dropzone({
+      overlap: 0.05,
+
+      ondropactivate(event) {
+        event.target.classList.toggle('drop-active');
+      },
+      ondragenter(event) {
+        event.relatedTarget.classList.toggle('can-drop');
+      },
+      ondragleave(event) {
+        event.relatedTarget.classList.toggle('can-drop');
+      },
+      ondrop(event) {
+        const dropzoneArrayIndex = values.indexOf(event.target.id.split('_')[1]);
+        const draggableArrayIndex = values.indexOf(event.relatedTarget.id.split('_')[1]);
+
+        const removedValue = values.splice(
+          dropzoneArrayIndex,
+          1,
+          values[draggableArrayIndex],
+        );
+        values.splice(draggableArrayIndex, 1, removedValue[0]);
+
+        event.relatedTarget.classList.toggle('can-drop');
+        setFieldValue(fieldPath, JSON.stringify(values));
+      },
+      ondropdeactivate(event) {
+        const e = event;
+        e.target.classList.toggle('drop-active');
+        e.relatedTarget.style.transform = 'translate(0px, 0px)';
+        position.x = 0;
+      },
+    });
+
+    interact('.language-box').draggable({
+      modifiers: [
+        interact.modifiers.restrictRect({
+          restriction: 'parent',
+          endOnly: false,
+        }),
+      ],
+      startAxis: 'x',
+      lockAxis: 'x',
+      listeners: {
+        move(event) {
+          const draggableElement = event.target;
+
+          position.x += event.dx;
+          position.y += event.dy;
+
+          draggableElement.style.transform = `translate(${position.x}px, ${position.y}px)`;
+        },
+      },
+    });
+  }
+
   updateData() {
     const { token, itemId } = this.props;
     const { getFieldValue, fieldPath } = this.props;
@@ -96,8 +182,6 @@ export default class Main extends Component {
     this.setState({
       loading: true,
     });
-
-    // setFieldValue(fieldPath, '["904247","904246"]');
 
     fetch('https://graphql.datocms.com/preview', {
       method: 'POST',
@@ -123,6 +207,7 @@ export default class Main extends Component {
           data: res.data.production,
           values: JSON.parse(getFieldValue(fieldPath)),
         });
+        this.initializeInteract();
       })
       .catch((error) => {
         this.setState({
@@ -136,13 +221,12 @@ export default class Main extends Component {
     const {
       loading, dropDown, data, values,
     } = this.state;
-    const { setFieldValue, fieldPath, maxRecords } = this.props;
+    const { maxRecords } = this.props;
 
     if (loading) {
       return <div className="container">Načítám data...</div>;
     }
 
-    console.log(data);
     return (
       <div className="container">
         <div
@@ -167,27 +251,16 @@ export default class Main extends Component {
             <ul className="dropDown">
               {values.length < maxRecords
                 ? data.subtitleFilesLanguages.length !== 0
-                  ? data.subtitleFilesLanguages.map((dataRow) => {
-                    const languageName = this.detectLanguageFromLocale(dataRow.lang);
-
-                    return (
-                      <li
-                        key={`dropDownItem_${dataRow.id}`}
-                        className="dropDownItem"
-                        onClick={() => {
-                          values.push(dataRow.id);
-                          setFieldValue(fieldPath, JSON.stringify(values));
-                        }}
-                      >
-                        {`${languageName || dataRow.lang}`}
-                        <small>
-                          Titulky (TIT soubory) #
-                          {dataRow.id}
-                        </small>
-                      </li>
-                    );
-                  }) : <div>Žádné titulky nejsou k dispozici...</div>
-                : <div>Vybrán maximální počet titulků...</div>
+                  ? data.subtitleFilesLanguages.map(dataRow => (
+                    this.getLanguageOption(dataRow)
+                  )) : <div>Žádné titulky nejsou k dispozici...</div>
+                : (
+                  <div>
+                    Vybrán maximální počet titulků (
+                    {maxRecords}
+                    )...
+                  </div>
+                )
               }
             </ul>
           )}

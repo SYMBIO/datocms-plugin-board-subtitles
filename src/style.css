@@ -4,33 +4,14 @@
   color: #848484;
 }
 
-.draggable{
-  touch-action: none;
-  user-select: none;
-}
-
-.dropzone{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 2px;
-  border: 2px dotted white;
-  transition: 0.3s;
-}
-
 .drop-active{
-  border: 2px dotted #ed6b5e;
+  outline: 2px dotted #ed6b5e;
+  outline-offset: -2px;
 }
 
 .can-drop{
-  background-color: #ed6b5e;
-  color: white;
-}
-
-.move-to-front{
-  z-index: 100;
+  background-color: #ed6b5e !important;
+  color: white !important;
 }
 
 .select-container{
@@ -65,7 +46,7 @@
   cursor: move;
   touch-action: none;
   user-select: none;
-  transition: 0.3s;
+  /* transition: 0.3s; */
 }
 
 .language-box:hover{
@@ -105,12 +86,17 @@
 }
 
 .dropDownArrow{
-  color: rgb(240, 240, 240);
+  fill: rgb(240, 240, 240);
   display: flex;
   box-sizing: border-box;
   padding-top: 4px;
   transition: color 150ms ease 0s;
   float: right;
+  transition: 0.2s;
+}
+
+.dropDownArrow:hover{
+  fill: rgb(153, 153, 153);
 }
 
 .dropDown{
