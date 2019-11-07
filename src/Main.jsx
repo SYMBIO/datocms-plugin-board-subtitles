@@ -250,7 +250,8 @@ export default class Main extends Component {
           && (
             <ul className="dropDown">
               {values.length < maxRecords
-                ? data.subtitleFilesLanguages.length !== 0
+                ? Array.isArray(data.subtitleFilesLanguages)
+                && data.subtitleFilesLanguages.length !== 0
                   ? data.subtitleFilesLanguages.map(dataRow => (
                     this.getLanguageOption(dataRow)
                   )) : <div>Žádné titulky nejsou k dispozici...</div>
