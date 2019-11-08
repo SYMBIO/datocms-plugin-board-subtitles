@@ -249,7 +249,7 @@ export default class Main extends Component {
         {dropDown
           && (
             <ul className="dropDown">
-              {values.length < maxRecords
+              {!Array.isArray(values) || values.length < maxRecords
                 ? Array.isArray(data.subtitleFilesLanguages)
                 && data.subtitleFilesLanguages.length !== 0
                   ? data.subtitleFilesLanguages.map(dataRow => (
