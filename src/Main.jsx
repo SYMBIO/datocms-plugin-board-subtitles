@@ -46,7 +46,7 @@ export default class Main extends Component {
     const { setFieldValue, fieldPath } = this.props;
     const { data, values } = this.state;
 
-    const locale = data.subtitleFilesLanguages.find((subtitle) => (
+    const locale = data.subtitleFilesLanguages.find(subtitle => (
       subtitle.id === itemRow
     )).lang;
 
