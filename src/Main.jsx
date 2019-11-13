@@ -205,7 +205,7 @@ export default class Main extends Component {
         this.setState({
           loading: false,
           data: res.data.production,
-          values: JSON.parse(getFieldValue(fieldPath)),
+          values: JSON.parse(getFieldValue(fieldPath)) || [],
         });
         this.initializeInteract();
       })
