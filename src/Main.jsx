@@ -47,16 +47,10 @@ export default class Main extends Component {
     const { data, values } = this.state;
 
     const locale = data.subtitleFilesLanguages.find(subtitle => (
-      subtitle.id === itemRow
+      subtitle.id.uploadId === itemRow
     )).lang;
 
     const languageName = this.detectLanguageFromLocale(locale);
-
-    // const index = availableValues.subtitleFilesLanguages.map(e => e.id).indexOf(itemRow);
-    // availableValues.subtitleFilesLanguages.splice(index, 1);
-    // console.log(data);
-
-    //  if locale undefined tak smazat z values a vubec ho nezobrazovat
 
     return (
       <div className="language-box" key={`subtitle_${itemRow}`} id={`subtitle_${itemRow}`}>
@@ -83,17 +77,17 @@ export default class Main extends Component {
 
     return (
       <li
-        key={`dropDownItem_${dataRow.id}`}
+        key={`dropDownItem_${dataRow.id.uploadId}`}
         className="dropDownItem"
         onClick={() => {
-          values.push(dataRow.id);
+          values.push(dataRow.id.uploadId);
           setFieldValue(fieldPath, JSON.stringify(values));
         }}
       >
         {`${languageName || dataRow.lang}`}
         <small>
           Titulky (TIT soubory) #
-          {dataRow.id}
+          {dataRow.id.uploadId}
         </small>
       </li>
     );
