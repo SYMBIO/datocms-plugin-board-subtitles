@@ -158,12 +158,14 @@ export default class Main extends Component {
       lockAxis: 'x',
       listeners: {
         move(event) {
-          const draggableElement = event.target;
+          if (values.length > 1) {
+            const draggableElement = event.target;
 
-          position.x += event.dx;
-          position.y += event.dy;
+            position.x += event.dx;
+            position.y += event.dy;
 
-          draggableElement.style.transform = `translate(${position.x}px, ${position.y}px)`;
+            draggableElement.style.transform = `translate(${position.x}px, ${position.y}px)`;
+          }
         },
       },
     });
