@@ -95,7 +95,7 @@ export default class Main extends Component {
   }
 
   detectLanguageFromLocale(locale) {
-    const languages = { cze: 'Čeština', eng: 'Angličtina' };
+    const languages = { cze: 'Čeština', eng: 'Angličtina', ger: 'Němčina' };
     return languages[locale];
   }
 
@@ -223,8 +223,6 @@ export default class Main extends Component {
     if (loading) {
       return <div className="container">Načítám data...</div>;
     }
-
-    console.log(values);
 
     return (
       <div className="container">
