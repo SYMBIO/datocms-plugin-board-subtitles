@@ -223,7 +223,7 @@ export default class Main extends Component {
     if (loading) {
       return <div className="container">Načítám data...</div>;
     }
-    
+
     console.log(values);
 
     return (
