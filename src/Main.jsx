@@ -46,9 +46,10 @@ export default class Main extends Component {
     const { setFieldValue, fieldPath } = this.props;
     const { data, values } = this.state;
 
-    const locale = data.subtitleFilesLanguages.find(subtitle => (
+    const subt = data.subtitleFilesLanguages.find(subtitle => (
       subtitle.id.uploadId === itemRow
-    )).lang;
+    ));
+    const locale = subt ? subt.lang : null;
 
     const languageName = this.detectLanguageFromLocale(locale);
 
@@ -222,6 +223,8 @@ export default class Main extends Component {
     if (loading) {
       return <div className="container">Načítám data...</div>;
     }
+    
+    console.log(values);
 
     return (
       <div className="container">
