@@ -24,7 +24,7 @@ export default class Main extends Component {
   };
 
   state = {
-    loading: true,
+    loading: false,
     dropDown: false,
     data: [],
     values: [],
@@ -190,6 +190,10 @@ export default class Main extends Component {
   }
 
   updateData() {
+    this.setState({
+      loading: true,
+    });
+
     const { getFieldValue, setFieldValue, fieldPath } = this.props;
 
     const files = getFieldValue('subtitle_files');
@@ -215,6 +219,10 @@ export default class Main extends Component {
       });
 
       this.initializeInteract();
+    }).finally(() => {
+      this.setState({
+        loading: false,
+      });
     });
   }
 
