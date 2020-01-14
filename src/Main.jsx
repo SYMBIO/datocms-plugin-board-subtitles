@@ -197,7 +197,8 @@ export default class Main extends Component {
     const files = getFieldValue('subtitle_files');
     const values = JSON.parse(getFieldValue(fieldPath)) || [];
 
-    fetch('https://nd-test.symbio.now.sh/api/subtitles/getSubtitlesLanguages', {
+    // fetch('https://nd-test.symbio.now.sh/api/subtitles/getSubtitlesLanguages', {
+    fetch('http://localhost:3000/api/subtitles/getSubtitlesLanguages', {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -205,23 +206,25 @@ export default class Main extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(files.map(f => f.upload_id)),
-    }).then(({ data }) => {
-      // filter out invalid languages
-      const langs = data.map(d => d.lang);
+    })
+      .then(({ data }) => {
+        // filter out invalid languages
+        const langs = data.map(d => d.lang);
 
-      const newValues = values.filter(v => langs.indexOf(v) !== -1);
-      setFieldValue(fieldPath, JSON.stringify(newValues));
-      this.setState({
-        data: langs,
-        values: newValues,
-      });
+        const newValues = values.filter(v => langs.indexOf(v) !== -1);
+        setFieldValue(fieldPath, JSON.stringify(newValues));
+        this.setState({
+          data: langs,
+          values: newValues,
+        });
 
-      this.initializeInteract();
-    }).finally(() => {
-      this.setState({
-        loading: false,
+        this.initializeInteract();
+      })
+      .finally(() => {
+        this.setState({
+          loading: false,
+        });
       });
-    });
   }
 
   render() {
