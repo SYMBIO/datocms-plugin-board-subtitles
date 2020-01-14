@@ -195,30 +195,27 @@ export default class Main extends Component {
     const files = getFieldValue('subtitle_files');
     const values = JSON.parse(getFieldValue(fieldPath));
 
-    const { data } = await fetch(
-      'https://nd-test.symbio.now.sh/api/subtitles/getSubtitlesLanguages',
-      {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(files.map(f => f.uploadId)),
+    fetch('https://nd-test.symbio.now.sh/api/subtitles/getSubtitlesLanguages', {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify(files.map(f => f.uploadId)),
+    }).then(({ data }) => {
+      // filter out invalid languages
+      const langs = data.map(d => d.lang);
 
-    // filter out invalid languages
-    const langs = data.map(d => d.lang);
+      const newValues = values.filter(v => langs.indexOf(v) !== -1);
+      setFieldValue(fieldPath, JSON.stringify(newValues));
+      this.setState({
+        data: langs,
+        values: newValues,
+      });
 
-    const newValues = values.filter(v => langs.indexOf(v) !== -1);
-    setFieldValue(fieldPath, JSON.stringify(newValues));
-    this.setState({
-      data: langs,
-      values: newValues,
+      this.initializeInteract();
     });
-
-    this.initializeInteract();
   }
 
   render() {
