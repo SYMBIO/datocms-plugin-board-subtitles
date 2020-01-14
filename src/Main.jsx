@@ -34,7 +34,7 @@ export default class Main extends Component {
     const { addFieldChangeListener, getFieldValue, fieldPath } = this.props;
 
     this.setState({
-      values: getFieldValue(fieldPath),
+      values: getFieldValue(fieldPath) || [],
     });
 
     addFieldChangeListener('subtitle_files', () => {
