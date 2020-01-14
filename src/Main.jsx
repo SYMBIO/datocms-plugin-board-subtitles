@@ -189,7 +189,7 @@ export default class Main extends Component {
     });
   }
 
-  async updateData() {
+  updateData() {
     const { getFieldValue, setFieldValue, fieldPath } = this.props;
 
     const files = getFieldValue('subtitle_files');
