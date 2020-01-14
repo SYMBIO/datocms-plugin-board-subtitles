@@ -195,7 +195,6 @@ export default class Main extends Component {
     const { getFieldValue, setFieldValue, fieldPath } = this.props;
 
     const files = getFieldValue('subtitle_files');
-    console.log(files);
     const values = JSON.parse(getFieldValue(fieldPath)) || [];
 
     fetch('https://nd-test.symbio.now.sh/api/subtitles/getSubtitlesLanguages', {
@@ -205,7 +204,7 @@ export default class Main extends Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(files.map(f => f.uploadId)),
+      body: JSON.stringify(files.map(f => f.upload_id)),
     }).then(({ data }) => {
       // filter out invalid languages
       const langs = data.map(d => d.lang);
