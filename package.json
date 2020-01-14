@@ -61,7 +61,8 @@
   },
   "prettier": {
     "singleQuote": true,
-    "arrowParens": "avoid"
+    "arrowParens": "avoid",
+    "trailingComma": "all"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.54",
@@ -78,6 +79,7 @@
     "eslint": "^5.3.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^6.9.0",
     "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-loader": "^2.1.0",
     "eslint-plugin-import": "^2.18.2",
@@ -90,6 +92,7 @@
     "localtunnel": "^1.9.2",
     "mini-css-extract-plugin": "^0.4.3",
     "prettier": "^1.18.2",
+    "prettier-eslint": "^9.0.1",
     "serve": "^10.1.2",
     "style-loader": "^0.23.0",
     "webpack": "^4.16.1",
