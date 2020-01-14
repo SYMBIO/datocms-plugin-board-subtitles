@@ -196,7 +196,7 @@ export default class Main extends Component {
 
     const files = getFieldValue('subtitle_files');
     const values = JSON.parse(getFieldValue(fieldPath)) || [];
-
+    ;
     // fetch('https://nd-test.symbio.now.sh/api/subtitles/getSubtitlesLanguages', {
     fetch('http://localhost:3000/api/subtitles/getSubtitlesLanguages', {
       method: 'POST',
