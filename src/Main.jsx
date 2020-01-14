@@ -57,7 +57,7 @@ export default class Main extends Component {
           type="button"
           className="cross"
           onClick={() => {
-            const newValues = values.filter(v => v !== item);
+            const newValues = values.filter(v => v !== item.id);
             this.setState({
               values: newValues,
             });
@@ -79,25 +79,25 @@ export default class Main extends Component {
     );
   }
 
-  getLanguageOption(lang) {
+  getLanguageOption(item) {
     const { setFieldValue, fieldPath } = this.props;
     const { values } = this.state;
 
-    const languageName = this.detectLanguageFromLocale(lang);
+    const languageName = this.detectLanguageFromLocale(item.lang);
 
     return (
       <li
-        key={`dropDownItem_${lang}`}
+        key={`dropDownItem_${item.id}`}
         className="dropDownItem"
         onClick={() => {
-          const newValues = [...values, lang];
+          const newValues = [...values, item.id];
           setFieldValue(fieldPath, JSON.stringify(newValues));
           this.setState({
             values: newValues,
           });
         }}
       >
-        {`${languageName || lang}`}
+        {`${languageName || item.lang}`}
       </li>
     );
   }
@@ -207,8 +207,7 @@ export default class Main extends Component {
       },
       body: JSON.stringify(files.map(f => f.upload_id)),
     })
-      .then((data) => {
-        console.log(data);
+      .then(data => {
         // filter out invalid languages
         const langs = data.map(d => d.lang);
 
@@ -250,7 +249,7 @@ export default class Main extends Component {
           }}
         >
           {Array.isArray(values) && values.length > 0 ? (
-            values.map(lang => this.getLanguageItem(lang))
+            values.map(item => this.getLanguageItem(item))
           ) : (
             <span
               onClick={e => {
@@ -288,7 +287,7 @@ export default class Main extends Component {
           <ul className="dropDown">
             {!Array.isArray(values) || values.length < maxRecords ? (
               Array.isArray(data) && data.length > 0 ? (
-                data.map(lang => this.getLanguageOption(lang))
+                data.map(item => this.getLanguageOption(item.lang))
               ) : (
                 <div>Žádné titulky nejsou k dispozici...</div>
               )
