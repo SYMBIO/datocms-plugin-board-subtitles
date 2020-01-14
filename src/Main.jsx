@@ -207,7 +207,8 @@ export default class Main extends Component {
       },
       body: JSON.stringify(files.map(f => f.upload_id)),
     })
-      .then(({ data }) => {
+      .then((data) => {
+        console.log(data);
         // filter out invalid languages
         const langs = data.map(d => d.lang);
 
