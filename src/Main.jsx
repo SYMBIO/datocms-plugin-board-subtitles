@@ -31,11 +31,9 @@ export default class Main extends Component {
   };
 
   componentDidMount() {
-    const { addFieldChangeListener, getFieldValue, fieldPath } = this.props;
+    const { addFieldChangeListener } = this.props;
 
-    this.setState({
-      values: getFieldValue(fieldPath) || [],
-    });
+    this.updateData();
 
     addFieldChangeListener('subtitle_files', () => {
       this.updateData();
@@ -197,7 +195,7 @@ export default class Main extends Component {
     const { getFieldValue, setFieldValue, fieldPath } = this.props;
 
     const files = getFieldValue('subtitle_files');
-    const values = JSON.parse(getFieldValue(fieldPath));
+    const values = JSON.parse(getFieldValue(fieldPath)) || [];
 
     fetch('https://nd-test.symbio.now.sh/api/subtitles/getSubtitlesLanguages', {
       method: 'POST',
