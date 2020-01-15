@@ -61,7 +61,7 @@ export default class Main extends Component {
           type="button"
           className="cross"
           onClick={() => {
-            const newValues = values.filter(v => v !== item.lang);
+            const newValues = values.filter(v => v !== item);
             console.log(newValues);
             this.setState({
               values: newValues,
