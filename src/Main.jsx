@@ -209,7 +209,7 @@ export default class Main extends Component {
       body: JSON.stringify(files.map(f => f.upload_id)),
     })
       .then(data => {
-        setFieldValue('subtitles_files_languages', JSON.stringify(data));
+        setFieldValue('subtitle_files_languages', JSON.stringify(data));
         this.setState({
           data,
         });
