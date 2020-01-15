@@ -310,7 +310,7 @@ export default class Main extends Component {
           <ul className="dropDown">
             {!Array.isArray(values) || values.length < maxRecords ? (
               Array.isArray(data) && data.length > 0 ? (
-                data.map(item => this.getLanguageOption(item))
+                data.map(item => this.getLanguageOption(item.lang))
               ) : (
                 <div>Žádné titulky nejsou k dispozici...</div>
               )
