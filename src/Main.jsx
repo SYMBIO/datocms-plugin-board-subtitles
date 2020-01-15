@@ -87,21 +87,21 @@ export default class Main extends Component {
     const { setFieldValue, fieldPath } = this.props;
     const { values } = this.state;
 
-    const languageName = this.detectLanguageFromLocale(item.lang);
+    const languageName = this.detectLanguageFromLocale(item);
 
     return (
       <li
-        key={`dropDownItem_${item.id}`}
+        key={`dropDownItem_${item}`}
         className="dropDownItem"
         onClick={() => {
-          const newValues = [...values, item.id];
+          const newValues = [...values, item];
           setFieldValue(fieldPath, JSON.stringify(newValues));
           this.setState({
             values: newValues,
           });
         }}
       >
-        {`${languageName || item.lang}`}
+        {`${languageName || item}`}
       </li>
     );
   }
@@ -313,7 +313,7 @@ export default class Main extends Component {
           <ul className="dropDown">
             {!Array.isArray(values) || values.length < maxRecords ? (
               Array.isArray(data) && data.length > 0 ? (
-                data.map(item => this.getLanguageOption(item.lang))
+                data.map(item => this.getLanguageOption(item))
               ) : (
                 <div>Žádné titulky nejsou k dispozici...</div>
               )
