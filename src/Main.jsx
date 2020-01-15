@@ -225,7 +225,7 @@ export default class Main extends Component {
     const { getFieldValue, setFieldValue, fieldPath } = this.props;
 
     // filter out invalid languages and replace by new ids
-    const data = JSON.parse(getFieldValue('subtitle_files_languages'));
+    const data = JSON.parse(getFieldValue('subtitle_files_languages')) || [];
     const oldValues = JSON.parse(getFieldValue(fieldPath)) || [];
     const values = oldValues
       .map(v => {
