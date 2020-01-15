@@ -208,6 +208,7 @@ export default class Main extends Component {
       },
       body: JSON.stringify(files.map(f => f.upload_id)),
     })
+      .then(data => data.json())
       .then(data => {
         console.log(data);
         setFieldValue('subtitle_files_languages', JSON.stringify(data));
