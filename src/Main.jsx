@@ -231,10 +231,7 @@ export default class Main extends Component {
       .map(v => {
         const file = data.find(d => d.lang === v.lang);
         if (file) {
-          return {
-            id: file.id,
-            lang: file.lang,
-          };
+          return file.lang;
         }
         return false;
       })
