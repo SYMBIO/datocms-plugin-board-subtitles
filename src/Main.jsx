@@ -33,11 +33,15 @@ export default class Main extends Component {
   componentDidMount() {
     const { addFieldChangeListener } = this.props;
 
-    this.updateData();
-
     addFieldChangeListener('subtitle_files', () => {
+      this.updateSubtitlesFilesLanguages();
+    });
+
+    addFieldChangeListener('subtitle_files_languages', () => {
       this.updateData();
     });
+
+    this.updateData();
   }
 
   getLanguageItem(item) {
@@ -187,15 +191,13 @@ export default class Main extends Component {
     });
   }
 
-  updateData() {
+  updateSubtitlesFilesLanguages() {
     this.setState({
       loading: true,
     });
 
-    const { getFieldValue, setFieldValue, fieldPath } = this.props;
-
+    const { getFieldValue, setFieldValue } = this.props;
     const files = getFieldValue('subtitle_files');
-    const values = JSON.parse(getFieldValue(fieldPath)) || [];
 
     fetch('https://nd-test.symbio.now.sh/api/subtitles/getSubtitlesLanguages', {
       method: 'POST',
@@ -207,23 +209,46 @@ export default class Main extends Component {
       body: JSON.stringify(files.map(f => f.upload_id)),
     })
       .then(data => {
-        // filter out invalid languages
-        const langs = data.map(d => d.lang);
-
-        const newValues = values.filter(v => langs.indexOf(v) !== -1);
-        setFieldValue(fieldPath, JSON.stringify(newValues));
+        setFieldValue('subtitles_files_languages', JSON.stringify(data));
         this.setState({
-          data: langs,
-          values: newValues,
+          data,
         });
-
-        this.initializeInteract();
       })
       .finally(() => {
         this.setState({
           loading: false,
         });
       });
+  }
+
+  updateData() {
+    const { getFieldValue, setFieldValue, fieldPath } = this.props;
+
+    // filter out invalid languages and replace by new ids
+    const data = JSON.parse(getFieldValue('subtitle_files_languages'));
+    const oldValues = JSON.parse(getFieldValue(fieldPath)) || [];
+    const values = oldValues
+      .map(v => {
+        const file = data.find(d => d.lang === v.lang);
+        if (file) {
+          return {
+            id: file.id,
+            lang: file.lang,
+          };
+        }
+        return false;
+      })
+      .filter(v => v);
+
+    // set new values without invalid files
+    setFieldValue(fieldPath, values);
+
+    this.setState({
+      data,
+      values,
+    });
+
+    this.initializeInteract();
   }
 
   render() {
@@ -233,6 +258,8 @@ export default class Main extends Component {
     if (loading) {
       return <div className="container">Načítám data...</div>;
     }
+
+    console.log(data);
 
     return (
       <div className="container">
