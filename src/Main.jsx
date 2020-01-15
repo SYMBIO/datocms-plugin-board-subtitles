@@ -229,7 +229,7 @@ export default class Main extends Component {
     const oldValues = JSON.parse(getFieldValue(fieldPath)) || [];
     const values = oldValues
       .map(v => {
-        const file = data.find(d => d.lang === v.lang);
+        const file = data.find(d => d.lang === v);
         if (file) {
           return file.lang;
         }
