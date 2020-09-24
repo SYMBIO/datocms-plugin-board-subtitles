@@ -210,7 +210,6 @@ export default class Main extends Component {
     })
       .then(data => data.json())
       .then(data => {
-        console.log(data);
         setFieldValue('subtitle_files_languages', JSON.stringify(data));
         this.setState({
           data,
@@ -259,8 +258,6 @@ export default class Main extends Component {
     if (loading) {
       return <div className="container">Načítám data...</div>;
     }
-
-    console.log(data);
 
     return (
       <div className="container">
