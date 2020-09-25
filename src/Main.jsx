@@ -238,8 +238,8 @@ export default class Main extends Component {
       })
       .filter(v => v);
 
-    console.log(JSON.stringify(values), getFieldValue(fieldPath));
-    if (JSON.stringify(values) !== getFieldValue(fieldPath)) {
+    console.log(JSON.stringify(values, undefined, '  '), getFieldValue(fieldPath));
+    if (JSON.stringify(values, undefined, '  ') !== getFieldValue(fieldPath)) {
       // set new values without invalid files
       setFieldValue(fieldPath, JSON.stringify(values));
     }
