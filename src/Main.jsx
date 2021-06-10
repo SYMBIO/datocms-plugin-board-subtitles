@@ -65,7 +65,7 @@ export default class Main extends Component {
             this.setState({
               values: newValues,
             });
-            setFieldValue(fieldPath, JSON.stringify(newValues));
+            setFieldValue(fieldPath, JSON.stringify(newValues, undefined, '  '));
           }}
         >
           <svg
@@ -95,7 +95,7 @@ export default class Main extends Component {
         className="dropDownItem"
         onClick={() => {
           const newValues = [...values, item];
-          setFieldValue(fieldPath, JSON.stringify(newValues));
+          setFieldValue(fieldPath, JSON.stringify(newValues, undefined, '  '));
           this.setState({
             values: newValues,
           });
@@ -154,7 +154,7 @@ export default class Main extends Component {
         values.splice(draggableArrayIndex, 1, removedValue[0]);
 
         event.relatedTarget.classList.toggle('can-drop');
-        setFieldValue(fieldPath, JSON.stringify(values));
+        setFieldValue(fieldPath, JSON.stringify(values, undefined, '  '));
         this.setState({
           values,
         });
@@ -210,7 +210,10 @@ export default class Main extends Component {
     })
       .then(data => data.json())
       .then(data => {
-        setFieldValue('subtitle_files_languages', JSON.stringify(data));
+        setFieldValue(
+          'subtitle_files_languages',
+          JSON.stringify(data, undefined, '  '),
+        );
         this.setState({
           data,
         });
@@ -240,7 +243,7 @@ export default class Main extends Component {
 
     if (JSON.stringify(values, undefined, '  ') !== getFieldValue(fieldPath)) {
       // set new values without invalid files
-      setFieldValue(fieldPath, JSON.stringify(values));
+      setFieldValue(fieldPath, JSON.stringify(values, undefined, '  '));
     }
 
     this.setState({
