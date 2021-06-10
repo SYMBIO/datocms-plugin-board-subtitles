@@ -34,13 +34,16 @@ export default class Main extends Component {
     const { addFieldChangeListener } = this.props;
 
     addFieldChangeListener('subtitle_files', () => {
+      console.log('updateSubtitlesFilesLanguages (on change subtitle_files)');
       this.updateSubtitlesFilesLanguages();
     });
 
     addFieldChangeListener('subtitle_files_languages', () => {
+      console.log('updateData (on change subtitle_files_languages)');
       this.updateData();
     });
 
+    console.log('updateData (initial)');
     this.updateData();
   }
 
@@ -261,6 +264,8 @@ export default class Main extends Component {
     if (loading) {
       return <div className="container">Načítám data...</div>;
     }
+
+    console.log(values);
 
     return (
       <div className="container">
