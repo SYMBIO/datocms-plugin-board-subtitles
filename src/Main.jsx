@@ -31,20 +31,24 @@ export default class Main extends Component {
   };
 
   componentDidMount() {
-    const { addFieldChangeListener } = this.props;
+    const { addFieldChangeListener, getFieldValue } = this.props;
 
     addFieldChangeListener('subtitle_files', () => {
-      console.log('updateSubtitlesFilesLanguages (on change subtitle_files)');
       this.updateSubtitlesFilesLanguages();
     });
 
     addFieldChangeListener('subtitle_files_languages', () => {
-      console.log('updateData (on change subtitle_files_languages)');
       this.updateData();
     });
 
-    console.log('updateData (initial)');
-    this.updateData();
+    const st = getFieldValue('subtitle_files');
+    const sfl = JSON.parse(getFieldValue('subtitle_files_languages'));
+
+    if (!Array.isArray(st) || !Array.isArray(sfl) || st.length !== sfl.length) {
+      this.updateSubtitlesFilesLanguages();
+    } else {
+      this.updateData();
+    }
   }
 
   getLanguageItem(item) {
@@ -202,7 +206,7 @@ export default class Main extends Component {
     const { getFieldValue, setFieldValue } = this.props;
     const files = getFieldValue('subtitle_files');
 
-    fetch('https://nd-test.symbio.now.sh/api/subtitles/getSubtitlesLanguages', {
+    fetch('https://nd-test.symbio.verce.app/api/subtitles/getSubtitlesLanguages', {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -264,8 +268,6 @@ export default class Main extends Component {
     if (loading) {
       return <div className="container">Načítám data...</div>;
     }
-
-    console.log(values);
 
     return (
       <div className="container">
